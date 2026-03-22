@@ -8,7 +8,7 @@ import "./App.css";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [dark, setDark] = useState(true);
-  const [showRegister, setShowRegister] = useState(false); // ✅ FIXED
+  const [showRegister, setShowRegister] = useState(false);
 
   return (
     <>
@@ -30,7 +30,7 @@ function App() {
       {/* Main Content */}
       <div className={dark ? "container dark" : "container"}>
 
-        {/* 👇 LOGIN / REGISTER SWITCH */}
+        {/* 👇 LOGIN / REGISTER */}
         {!isLoggedIn && (
           <>
             {showRegister ? (
@@ -45,10 +45,10 @@ function App() {
           </>
         )}
 
-        {/* 👇 ADMIN PANEL */}
+        {/* 👇 ADMIN */}
         {isLoggedIn && <AdminPanel />}
 
-        {/* 👇 NEWS LIST ALWAYS */}
+        {/* 👇 NEWS */}
         <NewsList />
 
       </div>
