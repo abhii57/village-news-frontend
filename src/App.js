@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Login from "./components/Login";
+import Register from "./components/Register";
 import AdminPanel from "./components/AdminPanel";
 import NewsList from "./components/NewsList";
 import "./App.css";
@@ -7,38 +8,52 @@ import "./App.css";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [dark, setDark] = useState(true);
+  const [showRegister, setShowRegister] = useState(false); // ✅ FIXED
 
   return (
-  <>
-    {/* 🔝 Navbar */}
-    <div className="navbar">
-      <h2>📰 DONEPUDI News</h2>
+    <>
+      {/* 🔝 Navbar */}
+      <div className="navbar">
+        <h2>📰 DONEPUDI News</h2>
 
-      <div>
-        <button onClick={() => setDark(!dark)}>
-          {dark ? "☀" : "🌙"}
-        </button>
+        <div>
+          <button onClick={() => setDark(!dark)}>
+            {dark ? "☀" : "🌙"}
+          </button>
 
-        {isLoggedIn && (
-          <button onClick={() => setIsLoggedIn(false)}>Logout</button>
-        )}
+          {isLoggedIn && (
+            <button onClick={() => setIsLoggedIn(false)}>Logout</button>
+          )}
+        </div>
       </div>
-    </div>
 
-    {/* Main Content */}
-    <div className={dark ? "container dark" : "container"}>
-      
-      {!isLoggedIn ? (
-        <Login setIsLoggedIn={setIsLoggedIn} />
-      ) : (
-        <AdminPanel />
-      )}
+      {/* Main Content */}
+      <div className={dark ? "container dark" : "container"}>
 
-      <NewsList />
-    </div>
-  </>
-);        
+        {/* 👇 LOGIN / REGISTER SWITCH */}
+        {!isLoggedIn && (
+          <>
+            {showRegister ? (
+              <Register />
+            ) : (
+              <Login setIsLoggedIn={setIsLoggedIn} />
+            )}
 
+            <button onClick={() => setShowRegister(!showRegister)}>
+              {showRegister ? "Go to Login" : "Create Account"}
+            </button>
+          </>
+        )}
+
+        {/* 👇 ADMIN PANEL */}
+        {isLoggedIn && <AdminPanel />}
+
+        {/* 👇 NEWS LIST ALWAYS */}
+        <NewsList />
+
+      </div>
+    </>
+  );
 }
 
 export default App;

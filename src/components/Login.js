@@ -46,10 +46,21 @@ function Login({ setIsLoggedIn }) {
       placeholder="Password"
       onChange={handleChange}
     />
+    
 
     <button onClick={login}>Login</button>
   </div>
 );
 }
+const handleLogin = async () => {
+  const res = await api.post("/login", { username, password });
+
+  if (res.data.success) {
+    alert("Login Success");
+    setIsLoggedIn(true);
+  } else {
+    alert("Invalid credentials");
+  }
+};
 
 export default Login;
