@@ -2,65 +2,43 @@ import { useState } from "react";
 import api from "../api";
 
 function Login({ setIsLoggedIn }) {
-  const [form, setForm] = useState({
-    username: "",
-    password: ""
-  });
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const login = async () => {
-    console.log("LOGIN CLICKED");
-
+  const handleLogin = async () => {
     try {
-      const res = await api.post("/login", form);
+      const res = await api.post("/login", { username, password });
 
-      console.log("FULL RESPONSE:", res);
-      console.log("DATA:", res.data);
-
-      if (res.data.success === true) {
-        alert("Login Success ✅");
+      if (res.data.success) {
+        alert("Login Success");
         setIsLoggedIn(true);
       } else {
-        alert("Wrong credentials ❌");
+        alert("Invalid credentials");
       }
     } catch (err) {
-      console.log("ERROR:", err);
-      alert("Server error ❌");
+      console.error(err);
+      alert("Server error");
     }
   };
 
   return (
-  <div className="login-box">
-    <h2>Admin Login</h2>
+    <div>
+      <h2>Admin Login</h2>
 
-    <input name="username" placeholder="Username" onChange={handleChange} />
-    <input
-      name="password"
-      type="password"
-      placeholder="Password"
-      onChange={handleChange}
-    />
-    
+      <input
+        placeholder="Username"
+        onChange={(e) => setUsername(e.target.value)}
+      />
 
-    <button onClick={login}>Login</button>
-  </div>
-);
+      <input
+        type="password"
+        placeholder="Password"
+        onChange={(e) => setPassword(e.target.value)}
+      />
+
+      <button onClick={handleLogin}>Login</button>
+    </div>
+  );
 }
-const handleLogin = async () => {
-  const res = await api.post("/login", { username, password });
-
-  if (res.data.success) {
-    alert("Login Success");
-    setIsLoggedIn(true);
-  } else {
-    alert("Invalid credentials");
-  }
-};
 
 export default Login;
